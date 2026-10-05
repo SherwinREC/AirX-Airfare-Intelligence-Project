@@ -1,0 +1,28 @@
+sources:
+  - name: easemytrip
+    enabled: true
+    type: ota
+    rate_limit_seconds: 2.0
+    headless: true
+    description: "EaseMyTrip Indian domestic flight scraper"
+
+  - name: ixigo
+    enabled: true
+    type: ota
+    rate_limit_seconds: 2.0
+    headless: true
+    description: "Ixigo domestic flight scraper"
+
+  - name: google_flights
+    enabled: true
+    type: ota
+    rate_limit_seconds: 2.0
+    headless: true
+    description: "Google Flights public domestic search scraper"
+
+  - name: mock_airline
+    enabled: true
+    type: airline
+    rate_limit_seconds: 0.1
+    headless: true
+    description: "Mock flight source for deterministic offline validation & testing"

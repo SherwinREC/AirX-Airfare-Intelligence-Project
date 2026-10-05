@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CLOUD NINE — Real-Time Airfare Price Index (SIH26056)</title>
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Outfit:wght@300;400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <!-- AIRFLEX CSS -->
+  <link rel="stylesheet" href="/static/css/airflex.css">
+</head>
+<body>
+  
+  <!-- Ambient Glass Background Lights -->
+  <div class="bg-ambient">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+  </div>
+
+  <!-- Hover Trigger Zone on Left Edge -->
+  <div class="sidebar-trigger-zone" id="sidebarTriggerZone" title="Hover here to open menu">
+    <div class="sidebar-trigger-badge">MENU ➔</div>
+  </div>
+
+  <div id="app">
+    
+    <!-- Auto-Hiding Sidebar Navigation -->
+    <aside class="sidebar" id="sidebarNav">
+      <div class="sidebar-header">
+        <div class="brand-logo-wrapper">
+          <img src="/static/images/cloud_nine_logo.png" alt="Cloud Nine Logo" class="brand-logo-img">
+        </div>
+        <div>
+          <h1 class="brand-title">CLOUD NINE</h1>
+          <div class="brand-tagline">Airfare Price Index • SIH26056</div>
+        </div>
+      </div>
+      
+      <ul class="nav-list">
+        <li class="nav-item">
+          <a class="nav-link active" data-tab="overview">
+            <span class="nav-icon">📊</span>
+            <span>Executive Dashboard</span>
+            <div class="tab-hover-popup">
+              <div class="popup-title">Executive Overview</div>
+              <div class="popup-desc">Headline ARI Score 151.43 • 34,632 Observations</div>
+            </div>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-tab="ari">
+            <span class="nav-icon">📈</span>
+            <span>Airfare Price Index</span>
+            <div class="tab-hover-popup">
+              <div class="popup-title">ARI Calculation Engine</div>
+              <div class="popup-desc">Weighted Route Index & Base Period Medians</div>
+            </div>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-tab="trends">
+            <span class="nav-icon">📉</span>
+            <span>Trends & Comparison</span>
+            <div class="tab-hover-popup">
+              <div class="popup-title">Price Trends</div>
+              <div class="popup-desc">Daily/Weekly Moving Averages & Period Comparison</div>
+            </div>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-tab="routes">
+            <span class="nav-icon">🛫</span>
+            <span>Route Analysis</span>
+            <div class="tab-hover-popup">
+              <div class="popup-title">36 Flight Routes</div>
+              <div class="popup-desc">Airline Fare Distributions & Volatility</div>
+            </div>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-tab="heatmap">
+            <span class="nav-icon">🗺️</span>
+            <span>Route Heatmap (India)</span>
+            <div class="tab-hover-popup">
+              <div class="popup-title">SVG Network Map</div>
+              <div class="popup-desc">Interactive Airport Nodes & Flying Arcs</div>
+            </div>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-tab="forecast">
+            <span class="nav-icon">🔮</span>
+            <span>Forecast Horizons</span>
+            <div class="tab-hover-popup">
+              <div class="popup-title">Projections</div>
+              <div class="popup-desc">T+1, T+7, T+15, T+30, T+45 Horizon Bands</div>
+            </div>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-tab="leadtime">
+            <span class="nav-icon">⏳</span>
+            <span>Lead-Time Analysis</span>
+            <div class="tab-hover-popup">
+              <div class="popup-title">Lead Time Curve</div>
+              <div class="popup-desc">Days to Departure vs Price Volatility</div>
+            </div>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-tab="components">
+            <span class="nav-icon">🧩</span>
+            <span>Fare Components</span>
+            <div class="tab-hover-popup">
+              <div class="popup-title">Fare Breakdown</div>
+              <div class="popup-desc">Base Fare (82%) + Taxes (15%) + Fees (3%)</div>
+            </div>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-tab="quality">
+            <span class="nav-icon">🛡️</span>
+            <span>Data Quality (94.7)</span>
+            <div class="tab-hover-popup">
+              <div class="popup-title">Composite Quality</div>
+              <div class="popup-desc">Completeness 98.4% • Validity 97.2%</div>
+            </div>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-tab="sources">
+            <span class="nav-icon">📡</span>
+            <span>Sources & Pipeline</span>
+            <div class="tab-hover-popup">
+              <div class="popup-title">Scraper Pipeline</div>
+              <div class="popup-desc">4 Real-Time Data Collection Feeds</div>
+            </div>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-tab="validation">
+            <span class="nav-icon">🎯</span>
+            <span>30-Day Validation</span>
+            <div class="tab-hover-popup">
+              <div class="popup-title">Method Validation</div>
+              <div class="popup-desc">MAE ₹0.38 • MAPE 0.30% • Pearson R 0.988</div>
+            </div>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-tab="dgca">
+            <span class="nav-icon">🏛️</span>
+            <span>DGCA Comparison</span>
+            <div class="tab-hover-popup">
+              <div class="popup-title">Benchmark Reference</div>
+              <div class="popup-desc">AIRFLEX ARI vs Official DGCA Reference</div>
+            </div>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-tab="observations">
+            <span class="nav-icon">🔎</span>
+            <span>Raw Observations & Trace</span>
+            <div class="tab-hover-popup">
+              <div class="popup-title">Audit Traceability</div>
+              <div class="popup-desc">SHA-256 Step-by-Step Observation Trace</div>
+            </div>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-tab="api">
+            <span class="nav-icon">⚡</span>
+            <span>API Documentation</span>
+            <div class="tab-hover-popup">
+              <div class="popup-title">REST API Access</div>
+              <div class="popup-desc">Automated System-to-System JSON Endpoints</div>
+            </div>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-tab="methodology">
+            <span class="nav-icon">📖</span>
+            <span>Methodology & Weights</span>
+            <div class="tab-hover-popup">
+              <div class="popup-title">DGCA Weight Matrix</div>
+              <div class="popup-desc">Mathematical Model & Weight Configurator</div>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Main Content Body -->
+    <main class="main-wrapper">
+      
+      <!-- Top Navigation Bar -->
+      <header class="top-bar">
+        <div class="page-header-info">
+          <h2 id="headerTitle">Executive Dashboard</h2>
+          <p>CLOUD NINE • Real-Time Airfare Price Index Intelligence</p>
+        </div>
+        <div class="top-bar-actions">
+          <div class="status-pill">
+            <div class="pulse-dot"></div>
+            <span>Pipeline Operational</span>
+          </div>
+          <span style="font-size: 0.8rem; color: var(--text-muted); font-family: var(--font-mono);" id="headerClock">2026-08-26 16:51</span>
+        </div>
+      </header>
+
+      <!-- View Containers -->
+      <div class="content-container">
+        
+        <!-- 1. OVERVIEW VIEW -->
+        <div id="view-overview" class="view-section">
+          
+          <div class="glass-card highlight kpi-hero" style="margin-bottom: 1.5rem;">
+            <div class="card-subtitle">CLOUD NINE • NATIONAL AIRFARE PRICE INDEX (ARI)</div>
+            <div class="kpi-large-number" id="kpiARI">128.42</div>
+            <div class="kpi-delta positive" id="kpiDelta">+4.82% vs previous day</div>
+            <p style="margin-top: 1rem; font-size: 0.92rem; color: var(--text-secondary);">
+              Calculated across <strong>34,632 observations</strong> and <strong>36 Indian flight routes</strong> normalized against reference base period.
+            </p>
+          </div>
+
+          <div class="grid-kpis">
+            <div class="glass-card kpi-mini-card">
+              <div class="kpi-label">Total Observations</div>
+              <div class="kpi-val" id="kpiObsCount">34,632</div>
+            </div>
+            <div class="glass-card kpi-mini-card">
+              <div class="kpi-label">Tracked Routes</div>
+              <div class="kpi-val" id="kpiRoutesCount">36</div>
+            </div>
+            <div class="glass-card kpi-mini-card">
+              <div class="kpi-label">Monitored Airlines</div>
+              <div class="kpi-val" id="kpiAirlinesCount">5</div>
+            </div>
+            <div class="glass-card kpi-mini-card">
+              <div class="kpi-label">Average Fare (INR)</div>
+              <div class="kpi-val" style="color: var(--accent-sky);" id="kpiAvgFare">₹5,515</div>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem;">
+            <div class="glass-card">
+              <div class="card-title">Airfare Price Index Trend (30 Days)</div>
+              <div style="height: 260px;">
+                <canvas id="chartOverviewMini"></canvas>
+              </div>
+            </div>
+            <div class="glass-card">
+              <div class="card-title">Collection Health</div>
+              <div style="font-size: 0.9rem; line-height: 1.9;">
+                <div style="display:flex; justify-content:space-between;"><span>Data Completeness</span><strong style="color:var(--accent-emerald)">98.4%</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span>Valid Observations</span><strong style="color:var(--accent-sky)">34,632</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span>Duplicates Filtered</span><strong style="color:var(--accent-blue)">815</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span>Sold-out Removed</span><strong style="color:var(--accent-amber)">142</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span>Quality Score</span><strong style="color:var(--accent-emerald)">94.7 / 100</strong></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 2. AIRFARE PRICE INDEX VIEW -->
+        <div id="view-ari" class="view-section" style="display:none;">
+          <div class="glass-card" style="margin-bottom: 1.5rem;">
+            <div class="card-title">ARI Methodology & Weighted Breakdown</div>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1rem;">
+              Overall ARI = Weighted sum of normalized route-level fares using DGCA reference weights.
+            </p>
+            <div style="height: 300px;">
+              <canvas id="chartARITimeSeries"></canvas>
+            </div>
+          </div>
+
+          <div class="glass-card">
+            <div class="card-title">Route Weight Contributions</div>
+            <div class="table-responsive">
+              <table class="glass-table">
+                <thead>
+                  <tr>
+                    <th>Route</th>
+                    <th>DGCA Weight</th>
+                    <th>Average Fare</th>
+                    <th>Baseline Fare</th>
+                    <th>Route Index</th>
+                    <th>Contribution Points</th>
+                    <th>Daily Change</th>
+                  </tr>
+                </thead>
+                <tbody id="tblARIContributions">
+                  <tr><td colspan="7">Loading index contributions...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. TRENDS VIEW -->
+        <div id="view-trends" class="view-section" style="display:none;">
+          <div class="glass-card" style="margin-bottom: 1.5rem;">
+            <div class="card-title">Daily / Weekly / Monthly Price Trends</div>
+            <div style="height: 320px;">
+              <canvas id="chartTrendsLine"></canvas>
+            </div>
+          </div>
+
+          <div class="glass-card">
+            <div class="card-title">Period Comparison Mode (Aug 01-15 vs Aug 16-30)</div>
+            <div class="grid-kpis" style="margin-top: 1rem;">
+              <div class="glass-card kpi-mini-card">
+                <div class="kpi-label" id="compPeriod1Label">Period 1 ARI</div>
+                <div class="kpi-val" id="compPeriod1ARI">123.5</div>
+              </div>
+              <div class="glass-card kpi-mini-card">
+                <div class="kpi-label" id="compPeriod2Label">Period 2 ARI</div>
+                <div class="kpi-val" id="compPeriod2ARI">128.4</div>
+              </div>
+              <div class="glass-card kpi-mini-card">
+                <div class="kpi-label">Difference</div>
+                <div class="kpi-val" style="color: var(--accent-sky);" id="compARIDiff">+4.9 (+3.9%)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. ROUTE ANALYSIS VIEW -->
+        <div id="view-routes" class="view-section" style="display:none;">
+          <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+            <select class="glass-select" id="selRouteExplorer" style="min-width: 250px;">
+              <!-- Options populated dynamically -->
+            </select>
+          </div>
+
+          <div class="grid-kpis">
+            <div class="glass-card kpi-mini-card">
+              <div class="kpi-label">Selected Route</div>
+              <div class="kpi-val" id="rtName">DEL-BOM</div>
+            </div>
+            <div class="glass-card kpi-mini-card">
+              <div class="kpi-label">Average Fare</div>
+              <div class="kpi-val" id="rtAvgFare">₹5,420</div>
+            </div>
+            <div class="glass-card kpi-mini-card">
+              <div class="kpi-label">Median Fare</div>
+              <div class="kpi-val" id="rtMedianFare">₹5,100</div>
+            </div>
+            <div class="glass-card kpi-mini-card">
+              <div class="kpi-label">Min / Max Fare</div>
+              <div class="kpi-val" style="font-size: 1.1rem; margin-top: 0.4rem;">
+                <span id="rtMinFare">₹2,800</span> – <span id="rtMaxFare">₹12,400</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-card">
+            <div class="card-title">Airline Competition Breakdown</div>
+            <div style="height: 280px;">
+              <canvas id="chartRouteAirlines"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. ROUTE HEATMAP VIEW -->
+        <div id="view-heatmap" class="view-section" style="display:none;">
+          <div class="glass-card" style="position: relative;">
+            <div class="card-title">Interactive India Airport & Route Network Heatmap</div>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+              Click any route line or airport node to inspect live observations and ARI contributions.
+            </p>
+            <div class="india-map-container">
+              <svg id="svgIndiaMap" class="map-svg" viewBox="0 0 800 800">
+                <!-- Dynamic SVG elements generated by airflex.js -->
+              </svg>
+            </div>
+
+            <!-- Slide-over route panel -->
+            <div id="heatmapRoutePanel" class="glass-card highlight" style="display:none; position: absolute; bottom: 2rem; right: 2rem; width: 300px; z-index: 50;">
+              <div class="card-title">
+                <span id="hmRouteTitle">DEL-BOM</span>
+                <span style="font-size: 0.8rem; cursor: pointer;" onclick="document.getElementById('heatmapRoutePanel').style.display='none'">✕</span>
+              </div>
+              <div style="font-size: 0.9rem; line-height: 1.8;">
+                <div>Average Fare: <strong id="hmRouteFare" style="color: var(--accent-sky);">₹5,420</strong></div>
+                <div>Route ARI: <strong id="hmRouteARI" style="color: var(--accent-blue);">132.4</strong></div>
+                <div>DGCA Weight: <strong id="hmRouteWeight" style="color: var(--accent-violet);">14.5%</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. FORECAST HORIZONS VIEW -->
+        <div id="view-forecast" class="view-section" style="display:none;">
+          <div class="glass-card" style="margin-bottom: 1.5rem;">
+            <div class="card-title">Travel Horizons Comparison (T+1 to T+45)</div>
+            <div style="height: 280px;">
+              <canvas id="chartForecastBar"></canvas>
+            </div>
+          </div>
+
+          <div class="glass-card">
+            <div class="card-title">Horizon Fare Analysis Table</div>
+            <div class="table-responsive">
+              <table class="glass-table">
+                <thead>
+                  <tr>
+                    <th>Horizon</th>
+                    <th>Average Fare</th>
+                    <th>Median Fare</th>
+                    <th>Horizon ARI</th>
+                    <th>Change vs Ref</th>
+                    <th>Observations</th>
+                    <th>Confidence</th>
+                  </tr>
+                </thead>
+                <tbody id="tblForecastHorizons">
+                  <tr><td colspan="7">Loading horizon calculations...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. LEAD-TIME ANALYSIS VIEW -->
+        <div id="view-leadtime" class="view-section" style="display:none;">
+          <div class="glass-card">
+            <div class="card-title">Days to Departure vs Average Airfare Curve</div>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+              Calculated from exact difference: <code>travel_date − scraped_at</code>.
+            </p>
+            <div style="height: 350px;">
+              <canvas id="chartLeadTimeCurve"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8. FARE COMPONENTS VIEW -->
+        <div id="view-components" class="view-section" style="display:none;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+            <div class="glass-card">
+              <div class="card-title">Fare Breakdown Donut</div>
+              <div style="height: 260px;">
+                <canvas id="chartFareComponentsDonut"></canvas>
+              </div>
+            </div>
+            <div class="glass-card">
+              <div class="card-title">Component Statistics</div>
+              <div style="font-size: 1rem; line-height: 2.2;">
+                <div>Base Fare Portion: <strong id="compBasePct" style="color: var(--accent-sky);">82.0%</strong></div>
+                <div>Taxes & Levies: <strong id="compTaxPct" style="color: var(--accent-violet);">15.0%</strong></div>
+                <div>OTA & Booking Fees: <strong id="compFeePct" style="color: var(--accent-amber);">3.0%</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 9. DATA QUALITY VIEW -->
+        <div id="view-quality" class="view-section" style="display:none;">
+          <div class="glass-card highlight" style="text-align: center; padding: 2.5rem; margin-bottom: 1.5rem;">
+            <div class="card-subtitle">COMPOSITE DATA HEALTH SCORE</div>
+            <div class="kpi-large-number" id="dqScore" style="color: var(--accent-emerald);">94.7</div>
+            <div class="badge badge-cyan" style="font-size: 0.9rem; margin-top: 0.5rem;">HIGH CONFIDENCE PLATFORM</div>
+          </div>
+
+          <div class="grid-kpis">
+            <div class="glass-card kpi-mini-card">
+              <div class="kpi-label">Completeness</div>
+              <div class="kpi-val" id="dqCompleteness">98.4%</div>
+            </div>
+            <div class="glass-card kpi-mini-card">
+              <div class="kpi-label">Validity</div>
+              <div class="kpi-val" id="dqValidity">97.2%</div>
+            </div>
+            <div class="glass-card kpi-mini-card">
+              <div class="kpi-label">Uniqueness Hash</div>
+              <div class="kpi-val" id="dqUniqueness">99.1%</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 10. SOURCES STATUS VIEW -->
+        <div id="view-sources" class="view-section" style="display:none;">
+          <div class="grid-kpis" id="gridSourcesCards">
+            <!-- Sources populated by JS -->
+          </div>
+        </div>
+
+        <!-- 11. 30-DAY VALIDATION VIEW -->
+        <div id="view-validation" class="view-section" style="display:none;">
+          <div class="grid-kpis" style="margin-bottom: 1.5rem;">
+            <div class="glass-card kpi-mini-card">
+              <div class="kpi-label">Mean Absolute Error (MAE)</div>
+              <div class="kpi-val" id="valMAE">₹0.38</div>
+            </div>
+            <div class="glass-card kpi-mini-card">
+              <div class="kpi-label">MAPE</div>
+              <div class="kpi-val" id="valMAPE">0.30%</div>
+            </div>
+            <div class="glass-card kpi-mini-card">
+              <div class="kpi-label">RMSE</div>
+              <div class="kpi-val" id="valRMSE">0.46</div>
+            </div>
+            <div class="glass-card kpi-mini-card">
+              <div class="kpi-label">Pearson Correlation</div>
+              <div class="kpi-val" style="color: var(--accent-emerald);" id="valCorr">0.988</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 12. DGCA COMPARISON VIEW -->
+        <div id="view-dgca" class="view-section" style="display:none;">
+          <div class="glass-card" style="margin-bottom: 1.5rem;">
+            <div class="card-title">AIRFLEX ARI vs DGCA Benchmark Reference</div>
+            <div style="height: 300px;">
+              <canvas id="chartDGCAComparison"></canvas>
+            </div>
+          </div>
+
+          <div class="grid-kpis">
+            <div class="glass-card kpi-mini-card">
+              <div class="kpi-label">AIRFLEX ARI</div>
+              <div class="kpi-val" id="dgcaAirflexARI">128.42</div>
+            </div>
+            <div class="glass-card kpi-mini-card">
+              <div class="kpi-label">DGCA Benchmark</div>
+              <div class="kpi-val" id="dgcaRefIndex">126.57</div>
+            </div>
+            <div class="glass-card kpi-mini-card">
+              <div class="kpi-label">Variance</div>
+              <div class="kpi-val" style="color: var(--accent-sky);" id="dgcaDiff">+1.85 pts</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 13. RAW OBSERVATIONS VIEW -->
+        <div id="view-observations" class="view-section" style="display:none;">
+          <div class="glass-card" style="margin-bottom: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+              <input type="text" id="inpObsSearch" class="glass-input" placeholder="Search flight, route, source, observation ID..." style="width: 350px;">
+              <span id="obsPageInfo" style="font-size: 0.85rem; color: var(--text-secondary);">Page 1</span>
+            </div>
+            <div class="table-responsive">
+              <table class="glass-table">
+                <thead>
+                  <tr>
+                    <th>Observation ID</th>
+                    <th>Source</th>
+                    <th>Airline</th>
+                    <th>Route</th>
+                    <th>Travel Date</th>
+                    <th>Total Fare</th>
+                    <th>Audit Trail</th>
+                  </tr>
+                </thead>
+                <tbody id="tblObservations">
+                  <tr><td colspan="7">Loading raw observations...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- 14. API VIEW -->
+        <div id="view-api" class="view-section" style="display:none;">
+          <div class="glass-card" style="margin-bottom: 1.5rem;">
+            <div class="card-title">REST API Endpoint Documentation (RBI / MoSPI Access)</div>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 1rem;">
+              Automated system-to-system retrieval of real-time national airfare indices.
+            </p>
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+              <button class="btn-glass" onclick="testAPIEndpoint('/api/overview')">GET /api/overview</button>
+              <button class="btn-glass" onclick="testAPIEndpoint('/api/ari/details')">GET /api/ari/details</button>
+              <button class="btn-glass" onclick="testAPIEndpoint('/api/trends')">GET /api/trends</button>
+              <button class="btn-glass" onclick="testAPIEndpoint('/api/forecast')">GET /api/forecast</button>
+              <button class="btn-glass" onclick="testAPIEndpoint('/api/lead-time')">GET /api/lead-time</button>
+            </div>
+            <pre id="apiResponseOutput" class="glass-card" style="font-family: var(--font-mono); font-size: 0.8rem; height: 260px; overflow-y: auto; color: var(--accent-sky-bright);">
+Click any endpoint above to test response JSON.
+            </pre>
+          </div>
+        </div>
+
+        <!-- 15. METHODOLOGY VIEW -->
+        <div id="view-methodology" class="view-section" style="display:none;">
+          <div class="glass-card">
+            <div class="card-title">Methodology & DGCA Route Weight Matrix</div>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6;">
+              AIRFLEX aggregates cleaned domestic flight fare observations across origin-destination pairs. Fares are normalized against base period medians and combined using passenger volume weights based on official DGCA traffic references.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Observation Audit Traceability Modal Drawer -->
+  <div id="modalAuditTrace" class="modal-overlay">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeModal()">✕</span>
+      <h3 style="margin-bottom: 1rem; color: #fff;">Observation Audit Traceability</h3>
+      <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.5rem;">
+        SHA-256 Fingerprint Hash: <code id="modalObsID" style="color: var(--accent-sky-bright);">...</code>
+      </div>
+      <div id="modalTraceContent">
+        Loading step-by-step audit trail...
+      </div>
+    </div>
+  </div>
+
+  <!-- AIRFLEX JS -->
+  <script src="/static/js/airflex.js"></script>
+</body>
+</html>

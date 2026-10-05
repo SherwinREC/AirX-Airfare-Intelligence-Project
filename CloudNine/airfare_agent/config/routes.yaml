@@ -1,0 +1,102 @@
+routes:
+  # Chennai (MAA) <-> Delhi (DEL)
+  - { origin: MAA, destination: DEL, cabin_class: Economy, days_ahead: 1 }
+  - { origin: MAA, destination: DEL, cabin_class: Economy, days_ahead: 3 }
+  - { origin: MAA, destination: DEL, cabin_class: Economy, days_ahead: 7 }
+  - { origin: MAA, destination: DEL, cabin_class: Economy, days_ahead: 14 }
+  - { origin: MAA, destination: DEL, cabin_class: Economy, days_ahead: 30 }
+  - { origin: MAA, destination: DEL, cabin_class: Business, days_ahead: 7 }
+  - { origin: DEL, destination: MAA, cabin_class: Economy, days_ahead: 1 }
+  - { origin: DEL, destination: MAA, cabin_class: Economy, days_ahead: 7 }
+  - { origin: DEL, destination: MAA, cabin_class: Economy, days_ahead: 14 }
+
+  # Delhi (DEL) <-> Mumbai (BOM)
+  - { origin: DEL, destination: BOM, cabin_class: Economy, days_ahead: 1 }
+  - { origin: DEL, destination: BOM, cabin_class: Economy, days_ahead: 3 }
+  - { origin: DEL, destination: BOM, cabin_class: Economy, days_ahead: 7 }
+  - { origin: DEL, destination: BOM, cabin_class: Economy, days_ahead: 14 }
+  - { origin: DEL, destination: BOM, cabin_class: Economy, days_ahead: 30 }
+  - { origin: DEL, destination: BOM, cabin_class: Business, days_ahead: 7 }
+  - { origin: BOM, destination: DEL, cabin_class: Economy, days_ahead: 1 }
+  - { origin: BOM, destination: DEL, cabin_class: Economy, days_ahead: 7 }
+  - { origin: BOM, destination: DEL, cabin_class: Economy, days_ahead: 14 }
+
+  # Chennai (MAA) <-> Mumbai (BOM)
+  - { origin: MAA, destination: BOM, cabin_class: Economy, days_ahead: 1 }
+  - { origin: MAA, destination: BOM, cabin_class: Economy, days_ahead: 7 }
+  - { origin: MAA, destination: BOM, cabin_class: Economy, days_ahead: 14 }
+  - { origin: MAA, destination: BOM, cabin_class: Business, days_ahead: 7 }
+  - { origin: BOM, destination: MAA, cabin_class: Economy, days_ahead: 1 }
+  - { origin: BOM, destination: MAA, cabin_class: Economy, days_ahead: 7 }
+
+  # Delhi (DEL) <-> Bengaluru (BLR)
+  - { origin: DEL, destination: BLR, cabin_class: Economy, days_ahead: 1 }
+  - { origin: DEL, destination: BLR, cabin_class: Economy, days_ahead: 3 }
+  - { origin: DEL, destination: BLR, cabin_class: Economy, days_ahead: 7 }
+  - { origin: DEL, destination: BLR, cabin_class: Economy, days_ahead: 14 }
+  - { origin: DEL, destination: BLR, cabin_class: Business, days_ahead: 7 }
+  - { origin: BLR, destination: DEL, cabin_class: Economy, days_ahead: 1 }
+  - { origin: BLR, destination: DEL, cabin_class: Economy, days_ahead: 7 }
+
+  # Bengaluru (BLR) <-> Chennai (MAA)
+  - { origin: BLR, destination: MAA, cabin_class: Economy, days_ahead: 1 }
+  - { origin: BLR, destination: MAA, cabin_class: Economy, days_ahead: 7 }
+  - { origin: BLR, destination: MAA, cabin_class: Business, days_ahead: 7 }
+  - { origin: MAA, destination: BLR, cabin_class: Economy, days_ahead: 7 }
+
+  # Kolkata (CCU) <-> Delhi (DEL)
+  - { origin: CCU, destination: DEL, cabin_class: Economy, days_ahead: 1 }
+  - { origin: CCU, destination: DEL, cabin_class: Economy, days_ahead: 7 }
+  - { origin: CCU, destination: DEL, cabin_class: Economy, days_ahead: 14 }
+  - { origin: DEL, destination: CCU, cabin_class: Economy, days_ahead: 7 }
+
+  # Hyderabad (HYD) <-> Delhi (DEL)
+  - { origin: HYD, destination: DEL, cabin_class: Economy, days_ahead: 1 }
+  - { origin: HYD, destination: DEL, cabin_class: Economy, days_ahead: 7 }
+  - { origin: HYD, destination: DEL, cabin_class: Economy, days_ahead: 14 }
+  - { origin: DEL, destination: HYD, cabin_class: Economy, days_ahead: 7 }
+
+  # Mumbai (BOM) <-> Goa (GOI)
+  - { origin: BOM, destination: GOI, cabin_class: Economy, days_ahead: 1 }
+  - { origin: BOM, destination: GOI, cabin_class: Economy, days_ahead: 7 }
+  - { origin: GOI, destination: BOM, cabin_class: Economy, days_ahead: 7 }
+
+  # Kochi (COK) <-> Delhi (DEL)
+  - { origin: COK, destination: DEL, cabin_class: Economy, days_ahead: 7 }
+  - { origin: DEL, destination: COK, cabin_class: Economy, days_ahead: 7 }
+
+  # Ahmedabad (AMD) <-> Delhi (DEL)
+  - { origin: AMD, destination: DEL, cabin_class: Economy, days_ahead: 7 }
+  - { origin: DEL, destination: AMD, cabin_class: Economy, days_ahead: 7 }
+
+  # Pune (PNQ) <-> Delhi (DEL)
+  - { origin: PNQ, destination: DEL, cabin_class: Economy, days_ahead: 7 }
+  - { origin: DEL, destination: PNQ, cabin_class: Economy, days_ahead: 7 }
+
+  # Jaipur (JAI) <-> Delhi (DEL)
+  - { origin: JAI, destination: DEL, cabin_class: Economy, days_ahead: 7 }
+  - { origin: DEL, destination: JAI, cabin_class: Economy, days_ahead: 7 }
+
+  # Lucknow (LKO) <-> Delhi (DEL)
+  - { origin: LKO, destination: DEL, cabin_class: Economy, days_ahead: 7 }
+  - { origin: DEL, destination: LKO, cabin_class: Economy, days_ahead: 7 }
+
+  # Patna (PAT) <-> Delhi (DEL)
+  - { origin: PAT, destination: DEL, cabin_class: Economy, days_ahead: 7 }
+  - { origin: DEL, destination: PAT, cabin_class: Economy, days_ahead: 7 }
+
+  # Guwahati (GAU) <-> Delhi (DEL)
+  - { origin: GAU, destination: DEL, cabin_class: Economy, days_ahead: 7 }
+  - { origin: DEL, destination: GAU, cabin_class: Economy, days_ahead: 7 }
+
+  # Varanasi (VNS) <-> Delhi (DEL)
+  - { origin: VNS, destination: DEL, cabin_class: Economy, days_ahead: 7 }
+  - { origin: DEL, destination: VNS, cabin_class: Economy, days_ahead: 7 }
+
+  # Chandigarh (IXC) <-> Delhi (DEL)
+  - { origin: IXC, destination: DEL, cabin_class: Economy, days_ahead: 7 }
+  - { origin: DEL, destination: IXC, cabin_class: Economy, days_ahead: 7 }
+
+  # Bhubaneswar (BBI) <-> Delhi (DEL)
+  - { origin: BBI, destination: DEL, cabin_class: Economy, days_ahead: 7 }
+  - { origin: DEL, destination: BBI, cabin_class: Economy, days_ahead: 7 }
