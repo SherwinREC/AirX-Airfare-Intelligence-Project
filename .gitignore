@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Environment
+.env
+.venv/
+venv/
+
+# Logs
+*.log
+
+# Database
+*.db
+
+# Generated airfare data
+*.csv
+*.parquet
+
+# IDE
+.vscode/
+.idea/
