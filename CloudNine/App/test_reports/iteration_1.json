@@ -1,0 +1,63 @@
+{
+  "summary": "First end-to-end test of AIRX. Backend: created pytest suite (30 tests) covering all /api and /api/v1 endpoints -> 30/30 pass; APIx=100.43, 98,722 valid obs, 36 routes, validity 99.965%, CPI contribution 0.00033 pp all verified, AI /api/ai/explain returns real GPT-5.4 output (mode=ai_enhanced_intelligence) and deterministic fallback works. Frontend: Policy Intelligence Mode confirmed as default landing view, all 14 sidebar sections render with no runtime/page errors, mode toggle works, CPI simulator round-trips through POST /api/cpi-sensitivity/simulate in both Policy and CPI Sensitivity views, raw-data pagination works, API Explorer endpoint switching + Try Live works, AI Refresh updates text, Simulate Scrape shows a toast. Found 3 real integration defects (prop-name mismatches / non-functional timeframe buttons / wrong toast metric key) and several missing data-testids which I added.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "GET /api/index-series", "issue": "timeframe (7D/30D/3M/6M/1Y) and aggregation (daily/weekly/monthly) query params are ignored - identical 13-point series returned for every combination. Makes the chart timeframe UI meaningless."},
+      {"endpoint": "GET /api/data-quality, /api/v1/data-quality", "issue": "Field is named validity_pct while the spec/other endpoints use validity_rate (overview kpis uses validity_rate). Inconsistent naming across contracts."},
+      {"endpoint": "POST /api/pipeline/trigger-scrape", "issue": "Response has raw_scraped_records/valid_records but frontend reads res.new_observations -> toast always says '0 obs ingested'. Contract mismatch."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "RouteIntelligenceView", "issue": "Airline tariff breakdown table is not rendered at all (TEST_IDS.ROUTE_AIRLINE_BREAKDOWN_TABLE unused). ROUTE_KPI_CHANGE testid also unused.", "selector": "[data-testid='route-airline-breakdown-table']", "priority": "MEDIUM"},
+      {"component": "AirfareIndexView", "issue": "Timeframe buttons (7D/30D/3M/6M/1Y) only change button styling; no refetch/slicing of series (x-axis ticks stay at 13 for every timeframe). Unused chartType state as well.", "selector": "[data-testid='timeframe-7d-btn']", "priority": "HIGH"},
+      {"component": "Navbar / DataPipelineView", "issue": "Scrape toast always reads 'Pipeline cycle complete — 0 obs ingested' because App.js reads res.new_observations which backend never returns.", "selector": "[data-testid='trigger-scrape-btn']", "priority": "MEDIUM"},
+      {"component": "RawDataView", "issue": "Route filter dropdown hardcodes only 5 routes while dataset has 36; airline/source lists also hardcoded instead of derived from API.", "selector": "[data-testid='raw-data-route-filter']", "priority": "MEDIUM"},
+      {"component": "RouteIntelligenceView (select)", "issue": "React console warning on every render of this view: 'In HTML, <span> cannot be a child of <option>' (hydration warning). Native <select> used instead of shadcn Select.", "selector": "[data-testid='route-select-origin']", "priority": "LOW"}
+    ],
+    "integration_issues": [
+      {"flow": "Policy briefing / Alerts drill-down -> Route Intelligence", "issue": "App.js passes selectedRoute/setSelectedRoute but RouteIntelligenceView destructures ({ routes, selectedRouteName, onSelectRoute }). Clicking 'BLR -> MAA' in the policy high-pressure list (or an alert action) navigates to Route Intelligence but always shows DEL-BOM. Selected route never propagates.", "affected_selectors": ["[data-testid='policy-high-pressure-routes-list']", "[data-testid='route-select-origin']"]},
+      {"flow": "Lead-Time view data binding", "issue": "App.js passes leadTime={leadTime} but LeadTimeView expects prop leadTimeData -> prop is always undefined and view silently renders hardcoded fallback constants instead of /api/lead-time data.", "affected_selectors": ["[data-testid='lead-time-elasticity-value']", "[data-testid='lead-time-t1-card']"]},
+      {"flow": "Validation view data binding", "issue": "App.js passes validation={validation} but ValidationView expects validationData -> always undefined, renders hardcoded r=0.91/MAE 2.7/RMSE 3.8 rather than /api/validation payload.", "affected_selectors": ["[data-testid='validation-correlation-value']", "[data-testid='validation-dgca-chart']"]},
+      {"flow": "CPI simulation state scope", "issue": "CpiSensitivityView/PolicyModeView simulate call setCpi() on the global App state, so a simulated scenario permanently overwrites the baseline CPI numbers shown elsewhere until reload. Consider keeping simulation result local or providing a Reset.", "affected_selectors": ["[data-testid='cpi-card-contribution']", "[data-testid='policy-cpi-impact-card']"]}
+    ],
+    "design_issues": [
+      {"screen": "Route Intelligence - box plot", "issues": ["'IQR Interquartile Range' label is rendered on top of the blue IQR box and the median tick; blue-on-blue text is effectively illegible"]},
+      {"screen": "Mobile (390x844)", "issues": ["Sidebar is always expanded (16rem fixed) with no hamburger/collapse, leaving ~130px for main content; headings wrap one word per line and pipeline DAG cards are clipped. No responsive layout for mobile/tablet."]},
+      {"screen": "API Explorer", "issues": ["Copy cURL falls back to toast.error('Clipboard unavailable') when navigator.clipboard is blocked; add a textarea/execCommand fallback so copy still succeeds"]}
+    ]
+  },
+  "test_report_links": ["/app/backend/tests/backend_test.py", "/app/test_reports/pytest/pytest_results.xml"],
+  "action_items": [
+    "Fix prop name mismatches in App.js/views: LeadTimeView (leadTimeData), ValidationView (validationData), RouteIntelligenceView (selectedRouteName + onSelectRoute) - currently three views ignore backend data / drill-down.",
+    "Make /api/index-series honour timeframe & aggregation params, and have AirfareIndexView refetch (or slice) on timeframe button click.",
+    "Fix scrape toast metric: use valid_records/raw_scraped_records from POST /api/pipeline/trigger-scrape.",
+    "Render the promised airline tariff breakdown table on Route Intelligence (route-airline-breakdown-table) and wire route-kpi-change.",
+    "Populate Raw Data filters (route/airline/source) dynamically from the 36-route dataset instead of 5 hardcoded routes.",
+    "Fix <span> inside <option> React warning in RouteIntelligenceView select; consider shadcn Select.",
+    "Fix IQR label overlap/contrast in the route box plot and add responsive sidebar collapse for mobile.",
+    "Standardise data-quality field naming (validity_pct vs validity_rate)."
+  ],
+  "critical_code_review_comments": [
+    "Views destructure prop names that App.js never passes (leadTimeData/validationData/selectedRouteName) and then silently fall back to hardcoded constants - this hides integration failures. Prefer explicit loading/empty states over baked-in fallback data so mismatches fail loudly.",
+    "Several views hardcode headline numbers (AirfareIndexView 100.43 / 100.00 / peak-trough, FareComponentsView 82/15/3, ValidationView r=0.91) instead of using API payloads; dashboard will show stale numbers when the dataset changes.",
+    "ESLint react/no-unstable-nested-components errors in AirfareIndexView:136, LeadTimeView:134, OverviewView:287, RouteIntelligenceView:227, ValidationView:169 (custom recharts tooltips defined during render) plus unescaped quotes in RawDataView:61.",
+    "AirfareIndexView keeps an unused chartType state; dead code.",
+    "server.py mounts CORSMiddleware after include_router and imports motor/db but never uses it for any endpoint - dead dependency."
+  ],
+  "updated_files": [
+    "/app/backend/tests/backend_test.py",
+    "/app/frontend/src/views/CpiSensitivityView.jsx",
+    "/app/frontend/src/views/AirfareIndexView.jsx",
+    "/app/frontend/src/views/FareComponentsView.jsx",
+    "/app/frontend/src/views/ApiExplorerView.jsx"
+  ],
+  "success_rate": {"backend": "100%", "frontend": "78%"},
+  "seed_data_creation": "None. Dataset is read from airfare_master.csv; no DB writes performed. No auth/credentials required (public dashboard).",
+  "should_call_test_agent_after_fix": true,
+  "should_main_agent_self_test": false,
+  "test_credentials": "Not applicable - no auth; /app/memory/test_credentials.md not required for this app",
+  "context_for_next_testing_agent": "Backend regression suite lives at /app/backend/tests/backend_test.py (30 tests, all passing; run: pytest /app/backend/tests/backend_test.py -v --junitxml=/app/test_reports/pytest/pytest_results.xml). Actual contract names to use: cpi_contribution_pp / airfare_cpi_weight_pct (not contribution_pp), validity_pct on data-quality, /api/index-series returns a bare LIST, /api/lead-time returns {windows, elasticity_overall}, /api/raw-data returns {total,page,page_size,total_pages,data}. Frontend testids I ADDED this round: cpi-fuel-shock-input / cpi-simulator-multiplier-slider / cpi-simulate-action-btn in CpiSensitivityView, timeframe-{7d,30d,3m,6m,1y}-btn + index-chart-container in AirfareIndexView, base/tax/fee-fare-share-value in FareComponentsView, api-endpoint-<id> fallback in ApiExplorerView. Still-unused testids: route-airline-breakdown-table, route-kpi-change, ai-model-select-dropdown, deterministic-toggle-switch, aggregation-select-dropdown (verify after main agent's fixes). Re-verify the 3 prop-name mismatches and timeframe filtering after fixes.",
+  "rca_of_the_issue": "Root cause of the three data-binding/drill-down defects is a prop-name contract mismatch between App.js renderView() and the view components' destructured props (leadTime vs leadTimeData, validation vs validationData, selectedRoute vs selectedRouteName). Because each view defines a hardcoded default object when the prop is undefined, the UI renders plausible-looking values and the failure is invisible without comparing against the API. Reproduction: click 'BLR -> MAA' in policy-high-pressure-routes-list -> Route Intelligence opens on DEL-BOM. Mitigation: rename props consistently and remove/lighten the hardcoded fallbacks. The timeframe-button no-op is a separate two-sided issue: backend ignores the timeframe param and the frontend never refetches on change."
+}

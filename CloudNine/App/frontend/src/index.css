@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    margin: 0;
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #08111F;
+    color: #F5F7FA;
+    overflow-x: hidden;
+}
+
+code, .font-mono, pre {
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+@layer base {
+    :root {
+        --background: 217 60% 7%;
+        --foreground: 216 33% 97%;
+        --card: 213 47% 12%;
+        --card-foreground: 216 33% 97%;
+        --popover: 213 47% 12%;
+        --popover-foreground: 216 33% 97%;
+        --primary: 206 100% 60%;
+        --primary-foreground: 217 60% 7%;
+        --secondary: 215 39% 17%;
+        --secondary-foreground: 216 33% 97%;
+        --muted: 215 39% 17%;
+        --muted-foreground: 215 20% 65%;
+        --accent: 206 100% 60%;
+        --accent-foreground: 217 60% 7%;
+        --destructive: 354 100% 68%;
+        --destructive-foreground: 216 33% 97%;
+        --border: 212 39% 19%;
+        --input: 212 39% 19%;
+        --ring: 206 100% 60%;
+        --radius: 0.5rem;
+    }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #08111F;
+}
+::-webkit-scrollbar-thumb {
+    background: #1E3145;
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #35A7FF;
+}
+
+@keyframes pulseSlow {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.15); }
+}
+
+.animate-pulse-slow {
+    animation: pulseSlow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@layer base {
+    [data-debug-wrapper="true"] {
+        display: contents !important;
+    }
+
+    [data-debug-wrapper="true"] > * {
+        margin-left: inherit;
+        margin-right: inherit;
+        margin-top: inherit;
+        margin-bottom: inherit;
+        padding-left: inherit;
+        padding-right: inherit;
+        padding-top: inherit;
+        padding-bottom: inherit;
+        column-gap: inherit;
+        row-gap: inherit;
+        gap: inherit;
+        border-left-width: inherit;
+        border-right-width: inherit;
+        border-top-width: inherit;
+        border-bottom-width: inherit;
+        border-left-style: inherit;
+        border-right-style: inherit;
+        border-top-style: inherit;
+        border-bottom-style: inherit;
+        border-left-color: inherit;
+        border-right-color: inherit;
+        border-top-color: inherit;
+        border-bottom-color: inherit;
+    }
+}

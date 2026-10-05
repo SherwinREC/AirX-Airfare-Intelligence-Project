@@ -1,0 +1,71 @@
+{
+  "app_name": "SIH26056 Midnight Aviation Intelligence Dashboard",
+  "app_type": "dashboard",
+  "theme": "Midnight Aviation Intelligence",
+  "colors": {
+    "background": "#08111F",
+    "cards": "#101D2D",
+    "borders": "#1E3145",
+    "primary_text": "#F5F7FA",
+    "secondary_text": "#8FA3B8",
+    "accent": "#35A7FF",
+    "positive": "#35D07F",
+    "warning": "#F5B942",
+    "critical": "#FF5C6C",
+    "rule": "90% neutral + 10% meaningful colour"
+  },
+  "typography": {
+    "headings": "Manrope",
+    "body": "IBM Plex Sans",
+    "mono": "JetBrains Mono"
+  },
+  "visual_enhancers": {
+    "borders": "1px solid #1E3145",
+    "shadows": "0 8px 32px rgba(0, 0, 0, 0.4)",
+    "border_radius": "rounded-lg"
+  },
+  "grids": {
+    "dashboard_mode": "High Density Grid (grid-cols-1 md:grid-cols-4 lg:grid-cols-12, gap-4)"
+  },
+  "navigation": [
+    "Overview",
+    "Airfare Index",
+    "Route Intelligence",
+    "Lead Time Analysis",
+    "Airline Analysis",
+    "Data Quality",
+    "Validation / Backtesting",
+    "Methodology",
+    "API",
+    "Raw Data Explorer",
+    "Alerts",
+    "Policy Mode vs Analyst Mode toggle"
+  ],
+  "key_metrics": {
+    "APIx": 100.43,
+    "CPI_base": "2024=100",
+    "weight": "0.07722%",
+    "contribution": "+0.00033 pp"
+  },
+  "image_urls": [
+    {
+      "category": "control_room",
+      "image_url": "https://images.unsplash.com/photo-1714596282575-82d224db8c70?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzMjh8MHwxfHNlYXJjaHwxfHxhdmlhdGlvbiUyMHJhZGFyJTIwY29udHJvbCUyMHJvb20lMjBkYXJrfGVufDB8fHx8MTc4Nzg1Njc4M3ww&ixlib=rb-4.1.0&q=85",
+      "description": "Government-grade aviation command center"
+    }
+  ],
+  "instructions_to_main_agent": [
+    "Build a React application with Tailwind CSS, Lucide React icons, Recharts for data visualization, and Sonner for toasts.",
+    "Implement Policy Intelligence Mode (high-level executive briefs, CPI tracking, policy implications) and Analyst Mode (deep raw data exploration, regression backtesting, outlier filtering, simulated daily pipeline ingestion).",
+    "Include all 12 navigation sections specified in the problem statement.",
+    "Ensure 100% of interactive elements have data-testid attributes.",
+    "Adhere strictly to the Midnight Aviation Intelligence theme (#08111F bg, #101D2D cards, #1E3145 borders, #35A7FF accent).",
+    "Include live interactive features: CSV upload and pipeline trigger, CPI calculator, AI Insights (GPT-5.4 / Gemini simulation), REST API explorer with cURL snippets, and Backtesting against DGCA benchmark."
+  ],
+  "universal_guidelines": [
+    "Never use complete transparent backgrounds for overlays or dropdowns.",
+    "Always set explicit text color on hover.",
+    "Use Generous spacing and sharp cardless or subtle 8px border-radius styling appropriate for RBI/NSO grade dashboards.",
+    "NO space grotesk font, NO teal green/blue (#1B93A4)."
+  ]
+}
